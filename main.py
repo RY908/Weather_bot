@@ -66,15 +66,16 @@ def handle_message(event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
   text = list(event.message.text)
-  
-  line_bot_api.reply_message(
-    event.reply_token,
-    TextSendMessage(text=event.message.text)
-  )
-  line_bot_api.reply_message(
-    event.reply_token,
-    TextSendMessage(text=len(text))
-  )
+  if len(text) >= 3:
+    line_bot_api.reply_message(
+      event.reply_token,
+      TextSendMessage(text=event.message.text)
+    )
+  else:
+    line_bot_api.reply_message(
+      event.reply_token,
+      TextSendMessage(text=len(text))
+    )
 
 # ポート番号の設定
 if __name__ == "__main__":
