@@ -65,16 +65,17 @@ def handle_message(event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+  text = list(event.message.text)
+  
   line_bot_api.reply_message(
     event.reply_token,
     TextSendMessage(text=event.message.text)
   )
-
-def next_message(event):
   line_bot_api.reply_message(
     event.reply_token,
-    TextSendMessage(test="This is a test. Just ignore this.")
+    TextSendMessage(text=len(text))
   )
+
 # ポート番号の設定
 if __name__ == "__main__":
 #    app.run()
