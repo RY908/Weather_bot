@@ -26,6 +26,6 @@ def get_weather(word):
       result = ("{}の今日の天気は{}、気温は{}/{}度、降水確率は{}です。".format(li[0], li[1], li[2], li[4], li[5]))
       return result
   #print(prefecture_list)
-  result = ('\n'.join(prefecture_list), '\n', 'の中から選択してください。')
+  result = ('\n'.join(prefecture_list)+'\n'+'の中から選択してください。')
   return result
     
