@@ -68,13 +68,29 @@ def handle_message(event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
   text = event.message.text
-  result = sc.get_weather(text)
+  if text == '位置情報':
+      line_bot_api.reply_message(
+          event.reply_token,
+          TextSendMessage(text='位置情報を教えてください。'),
+          TextSendMessage(text='line://nv/location')
+      )
 
-  line_bot_api.reply_message(
-    event.reply_token,
-    TextSendMessage(text=result)
-  )
+  else:
+      result = sc.get_weather(text)
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=result)
+    )
   
+@handler.add(MessageEvent, message=LocationMessage)
+def handle_location(event):
+    text = event.message.text 
+    result = sc.get_weather_from_location(text)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=result)
+    )
 
 # ポート番号の設定
 if __name__ == "__main__":
