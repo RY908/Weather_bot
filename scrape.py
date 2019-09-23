@@ -1,13 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
 
-url = "https://tenki.jp/"
+#url = "https://tenki.jp/"
 
-r = requests.get(url)
-soup = BeautifulSoup(r.text, 'lxml')
+#r = requests.get(url)
+#soup = BeautifulSoup(r.text, 'lxml')
 
 
 def get_weather(word):
+  url = "https://tenki.jp/"
+  r = requests.get(url)
+  soup = BeautifulSoup(r.text, 'html.parser')
   content = soup.find_all(class_='forecast-map-entry')
   prefecture_list = []
   for pre in content:
