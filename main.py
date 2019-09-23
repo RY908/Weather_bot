@@ -8,7 +8,7 @@ from linebot.exceptions import (
 )
 # linebot.modelsから処理したいイベントをimport
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, LocationMessage
 )
 from linebot.exceptions import LineBotApiError
 
