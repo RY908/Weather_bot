@@ -12,6 +12,8 @@ from linebot.models import (
 )
 from linebot.exceptions import LineBotApiError
 
+import scrape as sc
+
 import os
  
 app = Flask(__name__)
@@ -65,17 +67,14 @@ def handle_message(event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-  text = list(event.message.text)
-  if len(text) >= 3:
-    line_bot_api.reply_message(
-      event.reply_token,
-      TextSendMessage(text=event.message.text)
-    )
-  else:
-    line_bot_api.reply_message(
-      event.reply_token,
-      TextSendMessage(text=len(text))
-    )
+  text = event.message.text
+  result = sc.get_weather(text)
+
+  line_bot_api.reply_message(
+    event.reply_token,
+    TextSendMessage(text=result)
+  )
+  
 
 # ポート番号の設定
 if __name__ == "__main__":
