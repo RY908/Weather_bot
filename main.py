@@ -69,15 +69,14 @@ def handle_message(event):
 def handle_message(event):
   text = event.message.text
   if text == '位置情報':
-      line_bot_api.reply_message(
-          event.reply_token,
-          TextSendMessage(text='位置情報を教えてください。'),
-          TextSendMessage(text='line://nv/location')
-      )
+    line_bot_api.reply_message(
+      event.reply_token,
+      TextSendMessage(text='位置情報を教えてください。'),
+      TextSendMessage(text='line://nv/location')
+    )
 
   else:
-      result = sc.get_weather(text)
-
+    result = sc.get_weather(text)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result)
