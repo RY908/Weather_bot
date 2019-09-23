@@ -25,7 +25,7 @@ def get_weather(word):
   return result
 
 def get_weather_from_location(location):
-
+  location = [location.split()][1]
   url = "https://weather.yahoo.co.jp/weather/search/?p=" + location
   r = requests.get(url)
   soup = BeautifulSoup(r.text, 'html.parser')
