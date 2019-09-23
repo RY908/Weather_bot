@@ -71,8 +71,9 @@ def handle_message(event):
   if '位置情報' in text:
     line_bot_api.reply_message(
       event.reply_token,
+      [
       TextSendMessage(text='位置情報を教えてください。'),
-      TextSendMessage(text='line://nv/location')
+      TextSendMessage(text='line://nv/location')]
     )
 
   else:
