@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+import re
 #url = "https://tenki.jp/"
 
 #r = requests.get(url)
@@ -24,9 +24,10 @@ def get_weather(word):
   result = ('\n'.join(prefecture_list)+'\n'+'の中から選択してください。')
   return result
 
-def get_weather_from_location(location):
-  location = [location.split()][1]
-  url = "https://weather.yahoo.co.jp/weather/search/?p=" + location
+def get_weather_from_location(original_location):
+  find = '\d{3}-\d{4}'
+  location = re.findall(find, original_location)
+  url = "https://weather.yahoo.co.jp/weather/search/?p=" + location[0]
   r = requests.get(url)
   soup = BeautifulSoup(r.text, 'html.parser')
   content = soup.find(class_="serch-table")
@@ -46,10 +47,9 @@ def get_weather_from_location(location):
   temperature = info[18:26]
   weather_info = [(time[i], weather[i], temperature[i]) for i in range(8)]
   result = [('{0[0]}: {0[1]}, {0[2]}°C'.format(weather_info[i])) for i in range(8)]
-  result = ('{}の今日の天気は\n'.format(location) + '\n'.join(result))
+  result = ('{}の今日の天気は\n'.format(original_location) + '\n'.join(result))
 
   return result
 
 
-#print(get_weather_from_location('京都府'))
-    
+#print(get_weather_from_location('日本、560-0001、大阪府豊中市北緑丘'))
