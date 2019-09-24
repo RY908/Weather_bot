@@ -44,7 +44,7 @@ def get_weather_from_location(original_location):
   temperature = info[18:26]
   weather_info = [(time[i], weather[i], temperature[i]) for i in range(8)]
   result = [('{0[0]}: {0[1]}, {0[2]}°C'.format(weather_info[i])) for i in range(8)]
-  result = ('{}の今日の天気は\n'.format(original_location) + '\n'.join(result))
+  result = ('{}\nの今日の天気は\n'.format(original_location) + '\n'.join(result) + '\nです。')
 
   return result
 
