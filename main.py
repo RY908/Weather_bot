@@ -20,12 +20,6 @@ import os
 import json
 import sys
 
-try:
-    import MySQLdb
-except:
-    import pymsql
-    pymsql.install_as_MySQLdb()
-    import MySQLdb
  
 app = Flask(__name__)
 
@@ -36,11 +30,6 @@ YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
- 
-REMOTE_DB_USER = "LineBot"
-REMOTE_DB_PASS = "root"
-REMOTE_HOST = "localhost"
-REMOTE_DB_NAME = "rn-1"
 
 ## 1 ##
 #Webhookからのリクエストをチェックします。
@@ -87,7 +76,6 @@ def handle_message(event):
     )
 
   else:
-    text = user_id
     result = sc.get_weather(text)
     line_bot_api.reply_message(
         event.reply_token,
