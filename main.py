@@ -8,16 +8,39 @@ from linebot.exceptions import (
 )
 # linebot.modelsから処理したいイベントをimport
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, LocationMessage
+    MessageEvent, TextMessage, TextSendMessage, LocationMessage,
+    FollowEvent, UnfollowEvent, PostbackEvent, TemplateSendMessage,
+    ButtonsTemplate, CarouselTemplate, CarouselColumn, PostbackTemplateAction
 )
 from linebot.exceptions import LineBotApiError
 
 import scrape as sc
 import urllib3.request
 import os
+import json
+import sys
+
+try:
+    import MySQLdb
+except:
+    import pymsql
+    pymsql.install_as_MySQLdb()
+    import MySQLdb
  
 app = Flask(__name__)
- 
+
+ABS_PATH = os.path.dirname(os.path.abspath(sys.argv[0]))
+with open(ABS_PATH+'/conf.json', 'r') as f:
+    CONF_DATA = json.load(f)
+
+CHANNEL_SECRET = CONF_DATA['CHANNEL_SECRET']
+CHANNEL_ACCESS_TOKEN = CONF_DATA['CHANNEL_ACCESS_TOKEN']
+REMOTE_HOST = CONF_DATA['REMOTE_HOST']
+REMOTE_DB_NAME = CONF_DATA['REMOTE_DB_NAME']
+REMOTE_DB_USER = CONF_DATA['REMOTE_DB_USER']
+REMOTE_DB_PASS = CONF_DATA['REMOTE_DB_PASS']
+REMOTE_DB_TB = CONF_DATA['REMOTE_DB_TB']
+
 #環境変数取得
 # LINE Developersで設定されているアクセストークンとChannel Secretをを取得し、設定します。
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
@@ -57,13 +80,6 @@ def callback():
 #def以下の関数を実行します。
 #reply_messageの第一引数のevent.reply_tokenは、イベントの応答に用いるトークンです。 
 #第二引数には、linebot.modelsに定義されている返信用のTextSendMessageオブジェクトを渡しています。
-"""
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text)) #ここでオウム返しのメッセージを返します。
-"""
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):

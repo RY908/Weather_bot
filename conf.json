@@ -1,0 +1,9 @@
+{
+  "REMOTE_HOST": "データベースのホストIPもしくはホスト名",
+  "REMOTE_DB_NAME": "データベースの名前", 
+  "REMOTE_DB_USER": "データベースのユーザ名",
+  "REMOTE_DB_PASS": "データベースのパスワード",
+  "REMOTE_DB_TB": "データベースのテーブル名",
+
+  "COMMENT": "パーミッションは600とかにしましょう"
+}

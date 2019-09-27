@@ -3,3 +3,5 @@ line-bot-sdk==1.14.0
 beautifulsoup4==4.7.
 urllib3==1.24.1
 soupsieve==1.6.1
+mysql==8.0.17
+PyMySQL==0.9.3
