@@ -29,27 +29,19 @@ except:
  
 app = Flask(__name__)
 
-ABS_PATH = os.path.dirname(os.path.abspath(sys.argv[0]))
-with open(ABS_PATH+'/conf.json', 'r') as f:
-    CONF_DATA = json.load(f)
-
-CHANNEL_SECRET = CONF_DATA['CHANNEL_SECRET']
-CHANNEL_ACCESS_TOKEN = CONF_DATA['CHANNEL_ACCESS_TOKEN']
-REMOTE_HOST = CONF_DATA['REMOTE_HOST']
-REMOTE_DB_NAME = CONF_DATA['REMOTE_DB_NAME']
-REMOTE_DB_USER = CONF_DATA['REMOTE_DB_USER']
-REMOTE_DB_PASS = CONF_DATA['REMOTE_DB_PASS']
-REMOTE_DB_TB = CONF_DATA['REMOTE_DB_TB']
-
 #環境変数取得
 # LINE Developersで設定されているアクセストークンとChannel Secretをを取得し、設定します。
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
- 
+
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
  
- 
+REMOTE_DB_USER = "LineBot"
+REMOTE_DB_PASS = "root"
+REMOTE_HOST = "localhost"
+REMOTE_DB_NAME = "rn-1"
+
 ## 1 ##
 #Webhookからのリクエストをチェックします。
 @app.route("/callback", methods=['POST'])
@@ -84,6 +76,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
   text = event.message.text
+  user_id = event.message.id
   if '位置情報' in text:
     line_bot_api.reply_message(
       event.reply_token,
@@ -94,6 +87,7 @@ def handle_message(event):
     )
 
   else:
+    text = user_id
     result = sc.get_weather(text)
     line_bot_api.reply_message(
         event.reply_token,
