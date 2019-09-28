@@ -77,12 +77,16 @@ def handle_message(event):
 
   else:
     #result = sc.get_weather(text)
-    result = user_id
-    data = {
-        'id': 'user_id'
-    }
-    with open('info.json', 'w') as outfile:
-        json.dump(data, outfile)
+    #result = user_id
+    #data = {
+        #'id': 'user_id'
+    #}
+    #with open('info.json', 'w') as outfile:
+        #json.dump(data, outfile)
+    path = os.path.dirname(os.path.abspath(sys.argv[0]))
+    with open(path+'/info.json', 'r') as f:
+        result = json.load(f)
+        
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result)
