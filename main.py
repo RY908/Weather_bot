@@ -82,7 +82,7 @@ def handle_message(event):
         'id': 'user_id'
     }
     with open('info.json', 'w') as outfile:
-        json.dump(data, outfile)
+        json.dumps(data, outfile)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result)
