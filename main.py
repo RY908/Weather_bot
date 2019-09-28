@@ -31,6 +31,19 @@ YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
+def append_json_to_file(data: dict, path_file: str) -> bool:
+    with open(path_file, 'ab+') as f:              # ファイルを開く
+        f.seek(0,2)                                # ファイルの末尾（2）に移動（フォフセット0）  
+        if f.tell() == 0 :                         # ファイルが空かチェック
+            f.write(json.dumps([data]).encode())   # 空の場合は JSON 配列を書き込む
+        else :
+            f.seek(-1,2)                           # ファイルの末尾（2）から -1 文字移動
+            f.truncate()                           # 最後の文字を削除し、JSON 配列を開ける（]の削除）
+            f.write(' , '.encode())                # 配列のセパレーターを書き込む
+            f.write(json.dumps(data).encode())     # 辞書を JSON 形式でダンプ書き込み
+            f.write(']'.encode())                  # JSON 配列を閉じる
+    return f.close() # 連続で追加する場合は都度 Open, Close しない方がいいかも
+
 ## 1 ##
 #Webhookからのリクエストをチェックします。
 @app.route("/callback", methods=['POST'])
@@ -84,8 +97,8 @@ def handle_message(event):
     #with open('info.json', 'w') as outfile:
         #json.dump(data, outfile)
     path = os.path.dirname(os.path.abspath(sys.argv[0]))
-    with open(path+'/info.json', 'w') as f:
-        json.dump(data, f)
+    path = path + 'info.json'
+    append_json_to_file(data, path)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result)
