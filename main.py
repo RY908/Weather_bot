@@ -97,7 +97,7 @@ def handle_message(event):
     #with open('info.json', 'w') as outfile:
         #json.dump(data, outfile)
     path = os.path.dirname(os.path.abspath(sys.argv[0]))
-    path = path + 'info.json'
+    path = path + '/info.json'
     append_json_to_file(data, path)
     line_bot_api.reply_message(
         event.reply_token,
