@@ -86,7 +86,7 @@ def handle_message(event):
     path = os.path.dirname(os.path.abspath(sys.argv[0]))
     with open(path+'/info.json', 'r') as f:
         result = json.load(f)
-        
+    result = result['id1']
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result)
