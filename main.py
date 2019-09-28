@@ -76,7 +76,8 @@ def handle_message(event):
     )
 
   else:
-    result = sc.get_weather(text)
+    #result = sc.get_weather(text)
+    result = user_id
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result)
