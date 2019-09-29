@@ -81,7 +81,7 @@ def handle_message(event):
     with open(path) as f:
         result = (json.load(f))
     result = result['id4']
-    result[user_id] = ''
+    result[user_id] = 'a'
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result)
