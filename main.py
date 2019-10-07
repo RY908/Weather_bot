@@ -67,7 +67,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
   text = event.message.text
-  user_id = event.message.id
+  #user_id = event.message.id
   if '位置情報' in text:
     line_bot_api.reply_message(
       event.reply_token,
@@ -78,7 +78,7 @@ def handle_message(event):
     )
 
   else:
-      """
+    """
     path = os.path.dirname(os.path.abspath(sys.argv[0]))
     path = path + '/info.json'
     with open(path) as f:
@@ -88,7 +88,7 @@ def handle_message(event):
     result = d_update[user_id]
     with open (path, 'w') as f:
         json.dump(d_update, f)"""
-
+    result = "test"
     scope = ['https://spreadsheets.google.com/feeds',
             'https://www.googleapis.com/auth/drive']
 
