@@ -19,6 +19,8 @@ import urllib3.request
 import os
 import json
 import sys
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
  
 app = Flask(__name__)
@@ -76,6 +78,7 @@ def handle_message(event):
     )
 
   else:
+      """
     path = os.path.dirname(os.path.abspath(sys.argv[0]))
     path = path + '/info.json'
     with open(path) as f:
@@ -84,7 +87,20 @@ def handle_message(event):
     d_update[user_id] = 'a'
     result = d_update[user_id]
     with open (path, 'w') as f:
-        json.dump(d_update, f)
+        json.dump(d_update, f)"""
+
+    scope = ['https://spreadsheets.google.com/feeds',
+            'https://www.googleapis.com/auth/drive']
+
+    path = os.path.dirname(os.path.abspath(sys.argv[0]))
+    path += '/rn-1-a615ac4d9dff.json'
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(path, scope)
+    gc = gspread.authorize(credentials)
+    wks = gc.open('info').sheet1
+
+    wks.update_acell('A1', 'testtest')
+    #print(wks.acell('A1'))
+
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result)
