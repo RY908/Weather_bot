@@ -69,7 +69,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
   text = event.message.text
-  user_id = event.message.id
+  user_id = event.source.userId 
   worksheet = EditSpreadSheet()
   if '位置情報' in text:
     worksheet.add_user_id(user_id)
@@ -113,7 +113,7 @@ def handle_message(event):
 @handler.add(MessageEvent, message=LocationMessage)
 def handle_location(event):
     worksheet = EditSpreadSheet()
-    user_id = event.message.id
+    user_id = event.source.userId
     text = event.message.address
 
     result, location = sc.get_weather_from_location(text)
