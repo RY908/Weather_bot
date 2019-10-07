@@ -69,8 +69,10 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
   text = event.message.text
-  #user_id = event.message.id
+  user_id = event.message.id
+  worksheet = EditSpreadSheet()
   if '位置情報' in text:
+    worksheet.add_user_id(user_id)
     line_bot_api.reply_message(
       event.reply_token,
       [
@@ -115,7 +117,6 @@ def handle_location(event):
     text = event.message.address
 
     result, location = sc.get_weather_from_location(text)
-    worksheet.add_user_id(user_id)
     worksheet.add_user_location(user_id, location)
     line_bot_api.reply_message(
         event.reply_token,

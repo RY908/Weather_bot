@@ -51,4 +51,3 @@ def get_weather_from_location(original_location):
   result = ('{}\nの今日の天気は\n'.format(original_location) + '\n'.join(result) + '\nです。')
 
   return result, location[0]
-
