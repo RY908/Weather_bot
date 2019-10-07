@@ -28,15 +28,17 @@ class EditSpreadSheet():
     for i in range(self.length):
       if self.worksheet_list[i][0] == "":
         return i+1
-    return 0
+    return 1
 
   def add_user_id(self, user_id):
     self.worksheet.update_cell(self.detect_last_row(), 1, user_id)
+    return
   
   def add_user_location(self, user_id, location):
     for i in range(self.length):
       if self.worksheet_list[i][0] == user_id:
         self.worksheet.update_cell(i+1, 2, location)
+    return
     #self.worksheet.update_cell(self.detect_last_row, 2, location)
 
   
