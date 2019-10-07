@@ -15,29 +15,29 @@ class EditSpreadSheet():
     global gc
     gc = gspread.authorize(credentials)
     worksheet = gc.open('info').sheet1
-
     self.worksheet = worksheet
+    self.worksheet_list = worksheet.get_all_values()
+    self.length = len(self.worksheet_list)
   
   def detect_user_location(self, user_id):
-    row = 1
-    while self.worksheet.cell(row, 1).value != user_id:
-      row += 1
-    return self.worksheet.cell(row, 2).value
+    for i in range(self.length):
+      if self.worksheet_list[i][0] == user_id:
+        return self.worksheet_list[i][1]
 
   def detect_last_row(self):
-    row = 1
-    while self.worksheet.cell(row, 1) != "":
-      row += 1
-    return row 
+    for i in range(self.length):
+      if self.worksheet_list[i][0] == "":
+        return i+1
 
   def add_user_id(self, user_id):
     self.worksheet.update_cell(self.detect_last_row(), 1, user_id)
   
   def add_user_location(self, user_id, location):
-    row = 1
-    while self.worksheet.cell(row, 1).value != user_id:
-      row += 1
-    self.worksheet.update_cell(self.detect_last_row, 2, location)
+    for i in range(self.length):
+      if self.worksheet_list[i][0] == user_id:
+        self.worksheet.update_cell(i+1, 2, location)
+    #self.worksheet.update_cell(self.detect_last_row, 2, location)
 
   
-
+e = EditSpreadSheet()
+e.add_user_id("00001")
