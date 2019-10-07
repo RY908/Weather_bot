@@ -22,6 +22,8 @@ import sys
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+from spreadsheet import EditSpreadSheet
+
  
 app = Flask(__name__)
 
@@ -108,9 +110,13 @@ def handle_message(event):
   
 @handler.add(MessageEvent, message=LocationMessage)
 def handle_location(event):
+    worksheet = EditSpreadSheet()
+    user_id = event.message.id
     text = event.message.address
 
-    result = sc.get_weather_from_location(text)
+    result, location = sc.get_weather_from_location(text)
+    worksheet.add_user_id(user_id)
+    worksheet.add_user_location(user_id, location)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result)
