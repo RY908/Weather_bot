@@ -28,7 +28,7 @@ class EditSpreadSheet():
     for i in range(self.length):
       if self.worksheet_list[i][0] == "":
         return i+1
-    return 1
+    return self.length
 
   def add_user_id(self, user_id):
     self.worksheet.update_cell(self.detect_last_row(), 1, user_id)
