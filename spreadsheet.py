@@ -39,5 +39,4 @@ class EditSpreadSheet():
     #self.worksheet.update_cell(self.detect_last_row, 2, location)
 
   
-e = EditSpreadSheet()
-e.add_user_id("00001")
+
