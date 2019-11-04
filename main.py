@@ -133,7 +133,8 @@ def handle_video(event):
         TextSendMessage(text=message_id)
     )
     message_content = line_bot_api.get_message_content(message_id)
-    with open(f"static/images/{message_id}.mp4".absolute(), 'wb') as fd:
+
+    with open(Path(f"static/images/{message_id}.jpg").absolute(), 'wb') as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
     #name = event.message.contentProvider.type
