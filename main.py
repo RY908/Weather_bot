@@ -128,13 +128,22 @@ def handle_location(event):
 @handler.add(MessageEvent, message=VideoMessage)
 def handle_video(event):
     duration = event.message.duration
+    """
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=duration)
-    )
-    video = event.messages.contentProvider.originalContentUrl
+    )"""
+    name = event.message.contentProvider.type
+    #video = event.message.ContentProvider.originalContentUrl
     #video = event.message.contentProvider.originalContentUrl
-    uploadVideo(video)
+    #uploadVideo(video)
+    line_bot_api.reply_message(
+        event.reply_token,
+        [
+        TextSendMessage(text=duration),
+        TextSendMessage(text=name)
+        ]
+    )
 
 
 # ポート番号の設定
