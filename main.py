@@ -157,6 +157,7 @@ def handle_video(event):
         event.reply_token,
         TextSendMessage(text='ファイル名を送信してください。')
     )
+    uploadVideo(path)
 
 
 # ポート番号の設定
