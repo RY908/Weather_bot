@@ -90,6 +90,11 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=text)
         )
+        path = "static/videos/" + user_id + ".mp4"
+        new_path = "static/videos/" + text + ".mp4"
+        if not os.path.exists(path):
+            os.rename(path, new_path)  
+        uploadVideo(new_path)
 
     else:
         """
@@ -136,15 +141,15 @@ def handle_location(event):
 @handler.add(MessageEvent, message=VideoMessage)
 def handle_video(event):
     message_id = event.message.id
+    user_id = event.source.user_id 
     message_content = line_bot_api.get_message_content(message_id)
-    path = "static/videos/" + message_id + ".mp4"
+    path = "static/videos/" + user_id + ".mp4"
     with open(path, 'wb') as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
     #name = event.message.contentProvider.type
     #video = event.message.ContentProvider.originalContentUrl
     #video = event.message.contentProvider.originalContentUrl
-    uploadVideo(path)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text='ファイル名を送信してください。')
