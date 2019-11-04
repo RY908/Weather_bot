@@ -132,7 +132,8 @@ def handle_video(event):
         event.reply_token,
         TextSendMessage(text=duration)
     )
-    video = event.message.contentProvider.originalContentUrl
+    video = event.messages.contentProvider.originalContentUrl
+    #video = event.message.contentProvider.originalContentUrl
     uploadVideo(video)
 
 
