@@ -26,6 +26,8 @@ from spreadsheet import EditSpreadSheet
 
 from upload import uploadVideo
 
+import re
+
  
 app = Flask(__name__)
 
@@ -70,47 +72,53 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-  text = event.message.text
-  user_id = event.source.user_id 
-  worksheet = EditSpreadSheet()
-  if '位置情報' in text:
-    worksheet.add_user_id(user_id)
-    line_bot_api.reply_message(
-      event.reply_token,
-      [
-      TextSendMessage(text='位置情報を教えてください。'),
-      TextSendMessage(text='line://nv/location')
-      ]
-    )
+    text = event.message.text
+    user_id = event.source.user_id 
+    worksheet = EditSpreadSheet()
+    if '位置情報' in text:
+        worksheet.add_user_id(user_id)
+        line_bot_api.reply_message(
+            event.reply_token,
+            [
+            TextSendMessage(text='位置情報を教えてください。'),
+            TextSendMessage(text='line://nv/location')
+            ]
+            )
 
-  else:
-    """
-    path = os.path.dirname(os.path.abspath(sys.argv[0]))
-    path = path + '/info.json'
-    with open(path) as f:
-        d_update = json.load(f)
-        #result = (json.load(f))
-    d_update[user_id] = 'a'
-    result = d_update[user_id]
-    with open (path, 'w') as f:
-        json.dump(d_update, f)"""
-    result = "test"
-    scope = ['https://spreadsheets.google.com/feeds',
-            'https://www.googleapis.com/auth/drive']
+    elif re.match('20\d{6}.+', text):
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=text)
+        )
 
-    path = os.path.dirname(os.path.abspath(sys.argv[0]))
-    path += '/rn-1-a615ac4d9dff.json'
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(path, scope)
-    gc = gspread.authorize(credentials)
-    wks = gc.open('info').sheet1
+    else:
+        """
+        path = os.path.dirname(os.path.abspath(sys.argv[0]))
+        path = path + '/info.json'
+        with open(path) as f:
+            d_update = json.load(f)
+            #result = (json.load(f))
+        d_update[user_id] = 'a'
+        result = d_update[user_id]
+        with open (path, 'w') as f:
+            json.dump(d_update, f)"""
+        result = "test"
+        scope = ['https://spreadsheets.google.com/feeds',
+                'https://www.googleapis.com/auth/drive']
 
-    wks.update_acell('A1', 'testtest')
-    #print(wks.acell('A1'))
+        path = os.path.dirname(os.path.abspath(sys.argv[0]))
+        path += '/rn-1-a615ac4d9dff.json'
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(path, scope)
+        gc = gspread.authorize(credentials)
+        wks = gc.open('info').sheet1
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=result)
-    )
+        wks.update_acell('A1', 'testtest')
+        #print(wks.acell('A1'))
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=result)
+        )
   
 @handler.add(MessageEvent, message=LocationMessage)
 def handle_location(event):
@@ -128,10 +136,6 @@ def handle_location(event):
 @handler.add(MessageEvent, message=VideoMessage)
 def handle_video(event):
     message_id = event.message.id
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=message_id)
-    )
     message_content = line_bot_api.get_message_content(message_id)
     path = "static/videos/" + message_id + ".mp4"
     with open(path, 'wb') as fd:
@@ -141,6 +145,10 @@ def handle_video(event):
     #video = event.message.ContentProvider.originalContentUrl
     #video = event.message.contentProvider.originalContentUrl
     uploadVideo(path)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text='ファイル名を送信してください。')
+    )
 
 
 # ポート番号の設定
