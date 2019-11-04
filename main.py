@@ -83,17 +83,22 @@ def handle_message(event):
             TextSendMessage(text='位置情報を教えてください。'),
             TextSendMessage(text='line://nv/location')
             ]
-            )
+        )
 
     elif re.match('20\d{6}.+', text):
+        """
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=text)
-        )
+        )"""
         path = "static/videos/" + user_id + ".mp4"
         new_path = "static/videos/" + text + ".mp4"
         if not os.path.exists(path):
             os.rename(path, new_path)  
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=text)
+            )
         uploadVideo(new_path)
 
     else:
@@ -147,9 +152,7 @@ def handle_video(event):
     with open(path, 'wb') as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
-    #name = event.message.contentProvider.type
-    #video = event.message.ContentProvider.originalContentUrl
-    #video = event.message.contentProvider.originalContentUrl
+
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text='ファイル名を送信してください。')
