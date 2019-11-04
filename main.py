@@ -24,6 +24,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 from spreadsheet import EditSpreadSheet
 
+from upload import uploadVideo
+
  
 app = Flask(__name__)
 
@@ -122,6 +124,12 @@ def handle_location(event):
         event.reply_token,
         TextSendMessage(text=result)
     )
+
+@handler.add(MessageEvent, message=VideoMessage)
+def handle_video(event):
+    video = event.message.contentProvider.originalContentUrl
+    uploadVideo(video)
+
 
 # ポート番号の設定
 if __name__ == "__main__":
