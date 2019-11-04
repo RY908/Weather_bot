@@ -140,7 +140,7 @@ def handle_video(event):
     #name = event.message.contentProvider.type
     #video = event.message.ContentProvider.originalContentUrl
     #video = event.message.contentProvider.originalContentUrl
-    #uploadVideo(video)
+    uploadVideo(path)
 
 
 # ポート番号の設定
