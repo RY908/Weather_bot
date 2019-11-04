@@ -91,8 +91,8 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=text)
         )"""
-        path = "static/videos/" + user_id + ".mp4"
-        new_path = "static/videos/" + text + ".mp4"
+        path = " https://rn-1.herokuapp.com/static/videos/" + user_id + ".mp4"
+        new_path = text + ".mp4"
         if not os.path.exists(path):
             os.rename(path, new_path)  
             line_bot_api.reply_message(
