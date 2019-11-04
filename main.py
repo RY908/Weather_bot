@@ -127,11 +127,15 @@ def handle_location(event):
 
 @handler.add(MessageEvent, message=VideoMessage)
 def handle_video(event):
-    duration = event.message.type
+    message_id = event.message.id
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=duration)
+        TextSendMessage(text=message_id)
     )
+    message_content = line_bot_api.get_message_content(message_id)
+    with open(f"static/images/{message_id}.mp4".absolute(), 'wb') as fd:
+        for chunk in message_content.iter_content():
+            fd.write(chunk)
     #name = event.message.contentProvider.type
     #video = event.message.ContentProvider.originalContentUrl
     #video = event.message.contentProvider.originalContentUrl
