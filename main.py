@@ -24,7 +24,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 from spreadsheet import EditSpreadSheet
 
-from upload import uploadVideo
+from upload import uploadVideo, rename
 
 import re
 
@@ -90,7 +90,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=text)
-        )"""
+        )
         path = " https://rn-1.herokuapp.com/static/videos/" + user_id + ".mp4"
         new_path = text + ".mp4"
         uploadVideo(path)
@@ -100,7 +100,8 @@ def handle_message(event):
                 TextSendMessage(text=text)
             )
             os.rename(path, new_path)  
-        uploadVideo(new_path)
+        uploadVideo(new_path)"""
+        rename(user_id, text)
 
     else:
         """
