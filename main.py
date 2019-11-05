@@ -24,7 +24,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 from spreadsheet import EditSpreadSheet
 
-from upload import uploadVideo, rename
+from drive import uploadVideo, rename
 
 import re
 
