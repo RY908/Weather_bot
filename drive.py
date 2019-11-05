@@ -26,11 +26,38 @@ def rename(user_id, name):
   f = drive.CreateFile({'id': file_id})
   f.FetchMetadata()
   f['title'] = '{}.mp4'.format(name)
+  f['userPermission']['role'] ='anyone'
   f.Upload()
+  permission = f.InsertPermission({
+                        'type': 'anyone',
+                        'value': 'anyone',
+                        'role': 'reader'})
   #print(type(f))
   # <class 'pydrive.files.GoogleDriveFile'>
-
-  #print(f)
+  #pprint.pprint(f)
   # GoogleDriveFile({'id': '1urYj2HbvV6kNfYsT8A-2PsmEjdiR2nZS'})
 
   f.FetchMetadata()
+
+import pprint
+
+def download(name):
+  gauth = GoogleAuth()
+  gauth.LocalWebserverAuth()
+
+  drive = GoogleDrive(gauth)
+  file_id = drive.ListFile({'q': 'title = "{}.mp4"'.format(name)}).GetList()[0]['id']
+  f = drive.CreateFile({'id': file_id})
+  f.FetchMetadata()
+  #pprint.pprint(f)
+  #f.GetContentFile('20191105あ.mp4')
+  #print(f['downloadUrl'])
+  #print(f['alternateLink'])
+  link = f['alternateLink']
+  return link
+
+#rename("20191105あ", "20191105あ")
+#print(download("20191105あ"))
+
+
+

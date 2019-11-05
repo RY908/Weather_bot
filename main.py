@@ -24,7 +24,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 from spreadsheet import EditSpreadSheet
 
-from drive import uploadVideo, rename
+from drive import uploadVideo, rename, download
 
 import re
 
@@ -102,6 +102,18 @@ def handle_message(event):
             os.rename(path, new_path)  
         uploadVideo(new_path)"""
         rename(user_id, text)
+        message = "送信が完了しました。"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message)
+        )
+
+    elif 'ダウンロード' in text:
+        link = download('20191105あ')
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=link)
+        )
 
     else:
         """
