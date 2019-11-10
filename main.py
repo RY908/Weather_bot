@@ -168,10 +168,10 @@ def handle_video(event):
     res = requests.get(url, stream=True, headers={"Authorization": "Bearer {}".format(YOUR_CHANNEL_ACCESS_TOKEN)})
     path = user_id + ".mp4"
     print(res.status_code)
-    if res.status_code == 200:
-        with open(path, 'wb') as file:
-            for chunk in res.iter_content(chunk_size=1024):
-                file.write(chunk)
+    #if res.status_code == 200:
+    with open(path, 'wb') as file:
+        for chunk in res.iter_content(chunk_size=1024):
+            file.write(chunk)
     #path = "static/videos/" + user_id + ".mp4"
     """
     with open(path, 'wb') as fd:
