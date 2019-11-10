@@ -164,6 +164,7 @@ def handle_video(event):
     user_id = event.source.user_id 
     #message_content = line_bot_api.get_message_content(message_id)
     url = "https://api-data.line.me/v2/bot/message/{}/content".format(message_id)
+    print(url)
     res = requests.get(url, stream=True)
     path = user_id + ".mp4"
     print(res.status_code)
