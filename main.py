@@ -162,7 +162,7 @@ def handle_location(event):
 def handle_video(event):
     message_id = event.message.id
     user_id = event.source.user_id 
-    message_content = line_bot_api.get_message_content(message_id)
+    #message_content = line_bot_api.get_message_content(message_id)
     url = "https://api-data.line.me/v2/bot/message/{}/content".format(message_id)
     app.logger.info(url)
     res = requests.get(url, stream=True)
