@@ -162,27 +162,30 @@ def handle_location(event):
 def handle_video(event):
     message_id = event.message.id
     user_id = event.source.user_id 
-    #message_content = line_bot_api.get_message_content(message_id)
+    message_content = line_bot_api.get_message_content(message_id)
+    """
     url = "https://api-data.line.me/v2/bot/message/{}/content".format(message_id)
     print(url)
     res = requests.get(url, stream=True, headers={"Authorization": "Bearer {}".format(YOUR_CHANNEL_ACCESS_TOKEN)})
     path = user_id + ".mp4"
-    print(res.status_code)
+    print(res.status_code)"""
     #if res.status_code == 200:
     """
     with open(path, 'wb') as file:
         for chunk in res.iter_content(chunk_size=1024):
             file.write(chunk)
             """
+    """
     with open(path, 'wb') as file:
         for chunk in res.iter_content():
             file.write(chunk)
-    #path = "static/videos/" + user_id + ".mp4"
     """
+    #path = "static/videos/" + user_id + ".mp4"
+    
     with open(path, 'wb') as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
-    """
+    
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text='ファイル名を送信してください。')
