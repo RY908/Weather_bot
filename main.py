@@ -169,8 +169,13 @@ def handle_video(event):
     path = user_id + ".mp4"
     print(res.status_code)
     #if res.status_code == 200:
+    """
     with open(path, 'wb') as file:
         for chunk in res.iter_content(chunk_size=1024):
+            file.write(chunk)
+            """
+    with open(path, 'wb') as file:
+        for chunk in res.iter_content():
             file.write(chunk)
     #path = "static/videos/" + user_id + ".mp4"
     """
