@@ -20,6 +20,7 @@ import os
 import json
 import sys
 import gspread
+import requests
 from oauth2client.service_account import ServiceAccountCredentials
 
 from spreadsheet import EditSpreadSheet
@@ -162,12 +163,19 @@ def handle_video(event):
     message_id = event.message.id
     user_id = event.source.user_id 
     message_content = line_bot_api.get_message_content(message_id)
-    #path = "static/videos/" + user_id + ".mp4"
+    url = "https://api-data.line.me/v2/bot/message/{}/content".format(message_id)
+    res = requests.get(url, stream=True)
     path = user_id + ".mp4"
+    if res.status_code == 200:
+        with open(path, 'wb') as file:
+            for chunk in res.iter_content(chunk_size=1024):
+                file.write(chunk)
+    #path = "static/videos/" + user_id + ".mp4"
+    """
     with open(path, 'wb') as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
-
+    """
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text='ファイル名を送信してください。')
