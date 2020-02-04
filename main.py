@@ -181,7 +181,7 @@ def handle_video(event):
             file.write(chunk)
     """
     #path = "static/videos/" + user_id + ".mp4"
-    
+    path = user_id + ".mp4"
     with open(path, 'wb') as fd:
         for chunk in message_content.iter_content():
             fd.write(chunk)
