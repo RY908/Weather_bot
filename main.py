@@ -75,7 +75,7 @@ def callback():
 def handle_message(event):
     text = event.message.text
     user_id = event.source.user_id 
-    worksheet = EditSpreadSheet()
+    #worksheet = EditSpreadSheet()
     if '位置情報' in text:
         worksheet.add_user_id(user_id)
         line_bot_api.reply_message(
