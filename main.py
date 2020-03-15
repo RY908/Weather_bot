@@ -23,9 +23,9 @@ import gspread
 import requests
 from oauth2client.service_account import ServiceAccountCredentials
 
-from spreadsheet import EditSpreadSheet
+#from spreadsheet import EditSpreadSheet
 
-from drive import uploadVideo, rename, download
+#from drive import uploadVideo, rename, download
 
 import re
 
@@ -86,8 +86,9 @@ def handle_message(event):
             ]
         )
 
+    """
     elif re.match('20\d{6}.+', text):
-        """
+        
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=text)
@@ -101,7 +102,7 @@ def handle_message(event):
                 TextSendMessage(text=text)
             )
             os.rename(path, new_path)  
-        uploadVideo(new_path)"""
+        uploadVideo(new_path)
         rename(user_id, text)
         message = "送信が完了しました。"
         line_bot_api.reply_message(
@@ -117,7 +118,7 @@ def handle_message(event):
         )
 
     else:
-        """
+        
         path = os.path.dirname(os.path.abspath(sys.argv[0]))
         path = path + '/info.json'
         with open(path) as f:
@@ -126,7 +127,7 @@ def handle_message(event):
         d_update[user_id] = 'a'
         result = d_update[user_id]
         with open (path, 'w') as f:
-            json.dump(d_update, f)"""
+            json.dump(d_update, f)
         result = "test"
         scope = ['https://spreadsheets.google.com/feeds',
                 'https://www.googleapis.com/auth/drive']
@@ -143,7 +144,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=result)
-        )
+        )"""
   
 @handler.add(MessageEvent, message=LocationMessage)
 def handle_location(event):
@@ -157,13 +158,13 @@ def handle_location(event):
         event.reply_token,
         TextSendMessage(text=result)
     )
-
+"""
 @handler.add(MessageEvent, message=VideoMessage)
 def handle_video(event):
     message_id = event.message.id
     user_id = event.source.user_id 
     message_content = line_bot_api.get_message_content(message_id)
-    """
+    
     url = "https://api-data.line.me/v2/bot/message/{}/content".format(message_id)
     print(url)
     res = requests.get(url, stream=True, headers={"Authorization": "Bearer {}".format(YOUR_CHANNEL_ACCESS_TOKEN)})
@@ -174,12 +175,12 @@ def handle_video(event):
     with open(path, 'wb') as file:
         for chunk in res.iter_content(chunk_size=1024):
             file.write(chunk)
-            """
-    """
+        
+    
     with open(path, 'wb') as file:
         for chunk in res.iter_content():
             file.write(chunk)
-    """
+    
     #path = "static/videos/" + user_id + ".mp4"
     path = user_id + ".mp4"
     with open(path, 'wb') as fd:
@@ -190,7 +191,7 @@ def handle_video(event):
         event.reply_token,
         TextSendMessage(text='ファイル名を送信してください。')
     )
-    uploadVideo(path)
+    uploadVideo(path)"""
 
 
 # ポート番号の設定
