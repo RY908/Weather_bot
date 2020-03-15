@@ -2,23 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-def get_weather(word):
-  url = "https://tenki.jp/"
-  r = requests.get(url)
-  soup = BeautifulSoup(r.text, 'html.parser')
-  content = soup.find_all(class_='forecast-map-entry')
-  prefecture_list = []
-  for pre in content:
-    prefecture_list += [pre.get_text(' ').split()[0]]
-    if word in pre:
-      li = pre.get_text(' ').split()
-      weather = pre.find('img')
-      li.insert(1, weather['alt'])
-      result = ("{}\nの今日の天気は{}\n最高気温は{}度\n最低気温は{}度\n降水確率は{}です。".format(li[0], li[1], li[2], li[4], li[5]))
-      return result
-  result = ('\n'.join(prefecture_list)+'\n'+'の中から選択してください。')
-  return result
-
 # 位置情報からその日の天気を返す
 def get_weather_from_location(original_location):
   # 住所の中から郵便番号を抽出する
@@ -50,4 +33,4 @@ def get_weather_from_location(original_location):
   result = [('{0[0]}: {0[1]}, {0[2]}°C'.format(weather_info[i])) for i in range(8)]
   result = ('{}\nの今日の天気は\n'.format(original_location) + '\n'.join(result) + '\nです。')
 
-  return result, location[0]
+  return result

@@ -17,12 +17,8 @@ from linebot.exceptions import LineBotApiError
 import scrape as sc
 import urllib3.request
 import os
-import json
-import sys
-import requests
-import re
 
- 
+
 app = Flask(__name__)
 
 #環境変数取得
@@ -58,8 +54,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text
-    user_id = event.source.user_id 
-    if '位置情報' in text:
+    if '位置情報' == text:
         line_bot_api.reply_message(
             event.reply_token,
             [
@@ -71,10 +66,9 @@ def handle_message(event):
   
 @handler.add(MessageEvent, message=LocationMessage)
 def handle_location(event):
-    user_id = event.source.user_id
     text = event.message.address
 
-    result, location = sc.get_weather_from_location(text)
+    result = sc.get_weather_from_location(text)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=result)
